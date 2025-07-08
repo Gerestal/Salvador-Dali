@@ -10,7 +10,7 @@ namespace Ui { class Clocky; }
 QT_END_NAMESPACE
 
 class Clocky : public QWidget {
-
+    Q_OBJECT
 public:
     Clocky(QWidget* parent = nullptr);
     void startClock(QTime time);
@@ -25,7 +25,7 @@ private:
     QTimer* updateTimer;
 
 private slots:
-    void paintEvent(QPaintEvent* ev);
+    // void paintEvent(QPaintEvent* ev);
 };
 
 #endif // CLOCKY_H

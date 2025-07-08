@@ -8,6 +8,7 @@
 #include "formatchislovoy.h"
 #include "formatslovestny.h"
 #include "clocky.h"
+#include "statisticstrue.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,9 +24,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    //Clocky* clock;
-    //FormatChislovoy* formatchislovoy;
-    //FormatSlovestny* formatslovestny;
+    Clocky* clock;
+    FormatChislovoy* formatchislovoy;
+    FormatSlovestny* formatslovestny;
+    StatisticsTrue* statisticstrue;
     QDate endDate;
     QTime endTime;
 
@@ -35,7 +37,10 @@ private slots:
     void from_device_triggered();
     void chislovoy_input_triggered();
     void slovestny_input_triggered();
-    void end_testing();
+    void end_testing_triggered();
+    void fullscreen_triggered();
+    void show_statistics_triggered();
+    void exit_triggered();
 
 };
 

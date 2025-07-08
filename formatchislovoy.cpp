@@ -11,7 +11,7 @@ FormatChislovoy::FormatChislovoy(QWidget *parent)
     ui(new Ui::FormatChislovoy)
 {
     ui->setupUi(this);
-
+    setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
     resize(700, 500);
     setWindowTitle("Числовая запись");
     show();
