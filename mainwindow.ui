@@ -13,19 +13,105 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="Clocky" name="widget" native="true"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="file_menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="about_action"/>
+   </widget>
+   <widget class="QMenu" name="statistics_menu">
+    <property name="title">
+     <string>Статистика</string>
+    </property>
+    <addaction name="show_statistics_action"/>
+    <addaction name="end_testing_action"/>
+   </widget>
+   <widget class="QMenu" name="format_menu">
+    <property name="title">
+     <string>Формат</string>
+    </property>
+    <widget class="QMenu" name="digf_menu">
+     <property name="title">
+      <string>Числовой</string>
+     </property>
+     <addaction name="from_device_action"/>
+     <addaction name="manual_action"/>
+    </widget>
+    <addaction name="digf_menu"/>
+    <addaction name="wordf_action"/>
+   </widget>
+   <widget class="QMenu" name="help_menu">
+    <property name="title">
+     <string>Помощь</string>
+    </property>
+    <addaction name="help_action"/>
+   </widget>
+   <addaction name="file_menu"/>
+   <addaction name="statistics_menu"/>
+   <addaction name="format_menu"/>
+   <addaction name="help_menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="about_action">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="help_action">
+   <property name="text">
+    <string>Помощь</string>
+   </property>
+  </action>
+  <action name="wordf_action">
+   <property name="text">
+    <string>Словесный</string>
+   </property>
+  </action>
+  <action name="from_device_action">
+   <property name="text">
+    <string>С устройства</string>
+   </property>
+  </action>
+  <action name="manual_action">
+   <property name="text">
+    <string>Вручную</string>
+   </property>
+  </action>
+  <action name="show_statistics_action">
+   <property name="text">
+    <string>Просмотреть статистику</string>
+   </property>
+  </action>
+  <action name="end_testing_action">
+   <property name="text">
+    <string>Закончить тестирование</string>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Clocky</class>
+   <extends>QWidget</extends>
+   <header>clocky.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
