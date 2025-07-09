@@ -5,16 +5,20 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
+#include <QDir>
 
 FormatChislovoy::FormatChislovoy(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::FormatChislovoy)
 {
     ui->setupUi(this);
-
+    setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
     resize(700, 500);
     setWindowTitle("Числовая запись");
     show();
+
+
+
 }
 
 FormatChislovoy::~FormatChislovoy()
@@ -183,18 +187,21 @@ void FormatChislovoy::on_pushButton_clicked()
 {
     QString input = ui->lineEdit->text().trimmed();
 
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString fileName = appDir
+                       + QDir::separator()
+                       + "Statistika_false.txt";
+
 
     QStringList parts = input.split(' ', Qt::SkipEmptyParts);
     if (parts.size() != 2) {
         ui->lineEdit->setText("Ошибка: формат ДД.MM.ГГГГ. ЧЧ:MM:СС");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << input;
-            file.close();
+                out << input;
+                file.close();
         }
 
         return;
@@ -208,10 +215,9 @@ void FormatChislovoy::on_pushButton_clicked()
     if (!date.isValid()) {
         ui->lineEdit->setText("Ошибка: неверная дата ДД.MM.ГГГГ.");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
-        QFile file(fileName);
 
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QFile file(fileName);
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << input;
             file.close();
@@ -230,15 +236,12 @@ void FormatChislovoy::on_pushButton_clicked()
     if (!time.isValid()) {
         ui->lineEdit->setText("Ошибка: неверное время ЧЧ:MM:СС");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << input;
             file.close();
         }
-
         return;
     }
 
@@ -246,5 +249,11 @@ void FormatChislovoy::on_pushButton_clicked()
     this->m_date = date;
     this->m_time = time;
     writeData();
+}
+
+
+void FormatChislovoy::on_start_clocky_clicked()
+{
+   emit start_clock_signal (get_time());
 }
 

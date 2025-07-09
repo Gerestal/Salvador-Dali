@@ -11,6 +11,7 @@ namespace Ui { class Clocky; }
 QT_END_NAMESPACE
 
 class Clocky : public QWidget {
+    Q_OBJECT
 
     Q_OBJECT
 

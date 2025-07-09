@@ -4,13 +4,14 @@
 #include <QRegularExpression>
 #include <QFile>
 #include <QTextStream>
+#include <QDir>
 
 FormatSlovestny::FormatSlovestny(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::FormatSlovestny)
 {
     ui->setupUi(this);
-
+    setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
 
     resize(700, 500);
     setWindowTitle("Словесная запись");
@@ -38,16 +39,20 @@ void FormatSlovestny:: writeData(){ //цифрами
 void FormatSlovestny::on_pushButtonParseVerbal_clicked()
 {
 
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString fileName = appDir
+                       + QDir::separator()
+                       + "Statistika_false.txt";
+
+
     QString in = ui->slova->toPlainText()
                      .toLower()
                      .trimmed();
     if (in.isEmpty()) {
         ui->slova->setText("Ошибка: пустая строка");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+       if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << "Пустая строка";
             file.close();
@@ -82,7 +87,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
 
 
     QMap<QString,int> unitsCardRev = {
-        {"один",1}, {"два",2}, {"три",3}, {"четыре",4},
+        {"один",1}, {"два",2}, {"две",2}, {"три",3}, {"четыре",4},
         {"пять",5},{"шесть",6},{"семь",7},{"восемь",8},{"девять",9}
     };
     QMap<QString,int> teensCardRev = {
@@ -139,91 +144,111 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         }
         return true;
     };
-    auto parseOrdinalGen = [&](const QStringList& tk, int& val)->bool {
+
+
+    auto extractThousands = [&](QStringList& words, int& val) -> bool {
         val = 0;
 
-        if (tk.size()>=2) {
-            QString two = tk[0] + " " + tk[1];
-            if (thouGenRev.contains(two)) {
-                val += thouGenRev[two];
+
+        QMap<QString, int> thouNomRev = {
+            {"одна тысяча", 1000}, {"две тысячи", 2000}, {"три тысячи", 3000},
+            {"четыре тысячи", 4000}, {"пять тысяч", 5000}, {"шесть тысяч", 6000},
+            {"семь тысяч", 7000}, {"восемь тысяч", 8000}, {"девять тысяч", 9000}
+        };
+
+        for (int len = qMin(3, words.size()); len >= 1; --len) {
+            QString chunk = words.mid(0, len).join(' ');
+            if (thouNomRev.contains(chunk)) {
+                val += thouNomRev[chunk];
+                words = words.mid(len);
+                return true;
             }
         }
+        return true;
+    };
 
-        for (auto& w : tk) {
-            if      (hundredsCardRev.contains(w)) val += hundredsCardRev[w];
-            else if (teensGenRev.contains(w))     val += teensGenRev[w];
-            else if (tensGenRev.contains(w))      val += tensGenRev[w];
-            else if (unitsGenRev.contains(w))     val += unitsGenRev[w];
+    auto parseOrdinalGen = [&](const QStringList& input, int& val) -> bool {
+        val = 0;
+        QStringList words = input;
+
+        int thousands = 0;
+        if (!extractThousands(words, thousands)) return false;
+
+        int remainder = 0;
+        for (auto& w : words) {
+            if      (hundredsCardRev.contains(w)) remainder += hundredsCardRev[w];
+            else if (teensGenRev.contains(w))     remainder += teensGenRev[w];
+            else if (tensGenRev.contains(w))      remainder += tensGenRev[w];
+            else if (unitsGenRev.contains(w))     remainder += unitsGenRev[w];
+            else if (!w.isEmpty())                return false;
         }
-        return val>0;
+
+        val = thousands + remainder;
+        return (val > 0 && val <= 9999);
     };
 
 
     QStringList tk = in.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
-    if (tk.size() < 6) {
-        ui->slova->setText("Ошибка: слишком короткая строка");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
+    int idxM = -1;
+    for (int i = 0; i < tk.size(); ++i) {
+        if (monthMap.contains(tk[i])) { idxM = i; break; }
+    }
+    if (idxM < 1) {
+        ui->slova->setText("Ошибка: месяц не распознан");
+
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << in;
             file.close();
         }
-
         return;
     }
-
-
-    int d = dayMap.value(tk[0], -1);
-    int m = monthMap.value(tk[1], -1);
-    if (d < 1 || m < 1) {
-        ui->slova->setText("Ошибка: неверный день или месяц");
-
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
-        QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-            out << in;
-            file.close();
-        }
-
-        return;
-    }
-
-    // 6. Год — найти индекс слова "года"
     int idxG = tk.indexOf("года");
-    if (idxG < 2) {
+    if (idxG < idxM + 1) {
         ui->slova->setText("Ошибка: нет слова «года»");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << in;
             file.close();
         }
-
         return;
     }
 
-    QStringList yearWords = tk.mid(2, idxG - 2);
-    int y = 0;
-    if (!parseOrdinalGen(yearWords, y) || y < 1 || y > 9999) {
-        ui->slova->setText("Ошибка: не удалось определить год");
 
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
+    QStringList dayWords = tk.mid(0, idxM);
+    QString dayStr = dayWords.join(' ');
+    int d = dayMap.value(dayStr, -1);
+    if (d < 1 || d > 31) {
+        ui->slova->setText("Ошибка: день не распознан");
+
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << in;
             file.close();
         }
+        return;
+    }
 
+
+    int m = monthMap.value(tk[idxM], -1);
+
+
+    QStringList yearWords = tk.mid(idxM + 1, idxG - idxM - 1);
+    int y = 0;
+    if (!parseOrdinalGen(yearWords, y) || y < 1 || y > 9999) {
+        ui->slova->setText("Ошибка: год не распознан");
+
+        QFile file(fileName);
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << in;
+            file.close();
+        }
         return;
     }
 
@@ -231,7 +256,6 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
     int pos = idxG + 1;
     auto nextNum = [&](int& num, const QStringList& markers)->bool {
         QStringList buf;
-
         while (pos < tk.size()) {
             bool isMarker = false;
             for (auto& mk : markers) {
@@ -247,6 +271,13 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
     if (!nextNum(hh, {"час", "часов", "часа"}) ||
         pos>=tk.size() || !tk[pos].startsWith("час")) {
         ui->slova->setText("Ошибка определения часов");
+
+        QFile file(fileName);
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << in;
+            file.close();
+        }
         return;
     }
     ++pos;
@@ -254,6 +285,13 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
     if (!nextNum(mm, {"минута","минуты","минут"}) ||
         pos>=tk.size() || !tk[pos].startsWith("минут")) {
         ui->slova->setText("Ошибка определения минут");
+
+        QFile file(fileName);
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << in;
+            file.close();
+        }
         return;
     }
     ++pos;
@@ -261,31 +299,39 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
     if (!nextNum(ss, {"секунда","секунды","секунд"}) ||
         pos>=tk.size() || !tk[pos].startsWith("секунд")) {
         ui->slova->setText("Ошибка определения секунд");
-        return;
-    }
 
-
-    QDate date(d, m, y);
-    QTime time(hh, mm, ss);
-    if (!date.isValid() || !time.isValid()) {
-        ui->slova->setText("Ошибка: некорректная дата или время");
-
-        QString fileName = ":/new/prefix_statistika_neverno/Statistika_false.txt";
         QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
             out << in;
             file.close();
         }
+        return;
+    }
 
+    QDate date(y, m, d);
+    QTime time(hh, mm, ss);
+    if (!date.isValid() || !time.isValid()) {
+        ui->slova->setText("Ошибка: некорректная дата или время");
+
+        QFile file(fileName);
+        if (file.open(QIODevice::Append | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << in;
+            file.close();
+        }
         return;
     }
 
     m_date = date;
     m_time = time;
     writeData();
-
 }
 
+void FormatSlovestny::on_start_clocky_clicked()
+{
+
+        emit start_clock_signal (get_time());
+
+}
 
