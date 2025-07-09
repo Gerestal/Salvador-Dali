@@ -58,7 +58,7 @@ void MainWindow::from_device_triggered()
 
 void MainWindow::chislovoy_input_triggered()
 {
-    formatchislovoy = new FormatChislovoy;
+    formatchislovoy = new FormatChislovoy(this);
     connect (formatchislovoy, &FormatChislovoy::start_clock_signal, this, &MainWindow::push_start_time_date);
 }
 
@@ -102,4 +102,6 @@ void MainWindow::exit_triggered()
 void MainWindow::push_start_time_date(const QTime &time)
 {
     clock->startClock(time);
+
+
 }
