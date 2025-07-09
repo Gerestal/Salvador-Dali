@@ -65,6 +65,7 @@ void MainWindow::chislovoy_input_triggered()
 void MainWindow::slovestny_input_triggered()
 {
     formatslovestny = new FormatSlovestny;
+    // connect (formatslovestny, &FormatSlovestny::start_clock_signal, this, &MainWindow::push_start_time_date);
 }
 
 void MainWindow::end_testing_triggered()
@@ -98,7 +99,7 @@ void MainWindow::exit_triggered()
     this->~MainWindow();
 }
 
-void MainWindow::push_start_time_date()
+void MainWindow::push_start_time_date(/*...*/)
 {
     // startDate = formatchislovoy->returnDate();
     // startTime = formatchislovoy->returnTime();
