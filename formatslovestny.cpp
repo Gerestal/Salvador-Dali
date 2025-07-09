@@ -11,7 +11,7 @@ FormatSlovestny::FormatSlovestny(QWidget *parent)
     ui(new Ui::FormatSlovestny)
 {
     ui->setupUi(this);
-
+    setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
 
     resize(700, 500);
     setWindowTitle("Словесная запись");

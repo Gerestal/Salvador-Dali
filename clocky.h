@@ -26,7 +26,7 @@ private:
     QTimer* updateTimer;
 
 private slots:
-    //void paintEvent(QPaintEvent* ev);
+    // void paintEvent(QPaintEvent* ev);
 };
 
 #endif // CLOCKY_H
