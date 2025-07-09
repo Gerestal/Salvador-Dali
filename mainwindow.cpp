@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "ui_mainwindow1.h"
 #include <QMessageBox>
 #include <QShortcut>
 
@@ -59,7 +59,7 @@ void MainWindow::from_device_triggered()
 void MainWindow::chislovoy_input_triggered()
 {
     formatchislovoy = new FormatChislovoy;
-    // connect (formatchislovoy, &FormatChislovoy::start_clock_signal, this, &MainWindow::push_start_time_date);
+    connect (formatchislovoy, &FormatChislovoy::start_clock_signal, this, &MainWindow::push_start_time_date);
 }
 
 void MainWindow::slovestny_input_triggered()
@@ -99,8 +99,7 @@ void MainWindow::exit_triggered()
     this->~MainWindow();
 }
 
-void MainWindow::push_start_time_date(/*...*/)
+void MainWindow::push_start_time_date(const QTime &time)
 {
-    // startDate = formatchislovoy->returnDate();
-    // startTime = formatchislovoy->returnTime();
+    clock->startClock(time);
 }

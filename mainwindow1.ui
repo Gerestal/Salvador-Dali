@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>900</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,11 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="Clocky" name="widget" native="true"/>
+     <widget class="Clocky" name="widget" native="true">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -25,7 +29,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>900</width>
      <height>25</height>
     </rect>
    </property>
@@ -111,7 +115,7 @@
     <string>Закончить тестирование</string>
    </property>
   </action>
-  <action name="fullscreen_action">
+  <action name="fullscreen_action_2">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -122,6 +126,14 @@
   <action name="exit_action">
    <property name="text">
     <string>Выйти</string>
+   </property>
+  </action>
+  <action name="fullscreen_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Полноэкранный режим (F11)</string>
    </property>
   </action>
  </widget>
