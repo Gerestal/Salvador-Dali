@@ -255,5 +255,6 @@ void FormatChislovoy::on_pushButton_clicked()
 void FormatChislovoy::on_start_clocky_clicked()
 {
    emit start_clock_signal (get_time());
+    this ->hide();
 }
 
