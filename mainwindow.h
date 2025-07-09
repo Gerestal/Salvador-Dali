@@ -51,7 +51,7 @@ private slots:
     void fullscreen_triggered();
     void show_statistics_triggered();
     void exit_triggered();
-    void push_start_time_date();
+    void push_start_time_date(const QTime &time);
 
 };
 
