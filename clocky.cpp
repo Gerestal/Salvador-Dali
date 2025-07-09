@@ -1,4 +1,3 @@
-#include "ui_clocky.h"
 #include "clocky.h"
 
 Clocky::Clocky(QWidget* parent)
@@ -23,4 +22,8 @@ void Clocky::startClock()
 
 void Clocky::stopClock(){
     updateTimer->stop();
+}
+
+Clocky::~Clocky(){
+    delete updateTimer;
 }

@@ -1,1 +1,31 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/hourHands">
+        <file>hours/1.png</file>
+        <file>hours/1s.png</file>
+        <file>hours/2.png</file>
+        <file>hours/2s.png</file>
+        <file>hours/3.png</file>
+        <file>hours/3s.png</file>
+        <file>hours/4.png</file>
+        <file>hours/4s.png</file>
+        <file>hours/5.png</file>
+        <file>hours/5s.png</file>
+        <file>hours/6.png</file>
+        <file>hours/6s.png</file>
+        <file>hours/7.png</file>
+        <file>hours/7s.png</file>
+        <file>hours/8.png</file>
+        <file>hours/8s.png</file>
+        <file>hours/9.png</file>
+        <file>hours/9s.png</file>
+        <file>hours/10.png</file>
+        <file>hours/10s.png</file>
+        <file>hours/11.png</file>
+        <file>hours/11s.png</file>
+        <file>hours/12.png</file>
+        <file>hours/12s.png</file>
+    </qresource>
+    <qresource prefix="/background">
+        <file>background.jpg</file>
+    </qresource>
+</RCC>
