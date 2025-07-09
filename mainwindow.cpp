@@ -49,12 +49,12 @@ void MainWindow::from_device_triggered()
 
 void MainWindow::chislovoy_input_triggered()
 {
-    // formatchislovoy = new FormatChislovoy;
+    formatchislovoy = new FormatChislovoy;
 }
 
 void MainWindow::slovestny_input_triggered()
 {
-    // formatslovestny = new formatslovestny;
+    formatslovestny = new FormatSlovestny;
 }
 
 void MainWindow::end_testing()

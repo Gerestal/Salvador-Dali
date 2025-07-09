@@ -24,8 +24,8 @@ public:
 private:
     Ui::MainWindow *ui;
     //Clocky* clock;
-    //FormatChislovoy* formatchislovoy;
-    //FormatSlovestny* formatslovestny;
+    FormatChislovoy* formatchislovoy;
+    FormatSlovestny* formatslovestny;
     QDate endDate;
     QTime endTime;
 

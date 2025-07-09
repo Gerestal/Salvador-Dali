@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/new/prefix_statistika_neverno">
-        <file>Statistika_false.txt</file>
-    </qresource>
-</RCC>
