@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
-    setWindowTitle("Главное меню");
+    setWindowTitle("Часы");
 
     QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_F11), this);
     connect(shortcut, &QShortcut::activated, this, &MainWindow::fullscreen_triggered);
@@ -36,6 +36,7 @@ void MainWindow::about_triggered()
     QMessageBox *about = new QMessageBox;
     about->setWindowTitle("О программе");
     about->setIcon(QMessageBox::Information);
+    about->setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
     about->setText("Вкладка о программе");
     about->exec();
 }
@@ -45,6 +46,7 @@ void MainWindow::help_triggered()
     QMessageBox *help = new QMessageBox;
     help->setWindowTitle("Помощь");
     help->setIcon(QMessageBox::Information);
+    help->setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
     help->setText("Вкладка помощь");
     help->exec();
 }
@@ -57,6 +59,7 @@ void MainWindow::from_device_triggered()
 void MainWindow::chislovoy_input_triggered()
 {
     formatchislovoy = new FormatChislovoy;
+    // connect (formatchislovoy, &FormatChislovoy::start_clock_signal, this, &MainWindow::push_start_time_date);
 }
 
 void MainWindow::slovestny_input_triggered()
@@ -86,10 +89,17 @@ void MainWindow::fullscreen_triggered()
 void MainWindow::show_statistics_triggered()
 {
     statisticstrue = new StatisticsTrue(15);
+    connect(statisticstrue, &StatisticsTrue::exit_signal, this, &MainWindow::exit_triggered);
     statisticstrue->show();
 }
 
 void MainWindow::exit_triggered()
 {
     this->~MainWindow();
+}
+
+void MainWindow::push_start_time_date()
+{
+    // startDate = formatchislovoy->returnDate();
+    // startTime = formatchislovoy->returnTime();
 }

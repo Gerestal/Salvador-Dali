@@ -2,6 +2,7 @@
 #include "ui_statisticstrue.h"
 #include <QTableWidget>
 #include <QStringList>
+#include <QShortcut>
 
 StatisticsTrue::StatisticsTrue(int rows, QWidget *parent)
     : QWidget(parent)
@@ -10,7 +11,7 @@ StatisticsTrue::StatisticsTrue(int rows, QWidget *parent)
     ui->setupUi(this);
     setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
     setWindowTitle("Статистика");
-    connect(ui->exit_but, &QAbstractButton::clicked, this, &StatisticsTrue::exit);
+    connect(ui->exit_but, &QAbstractButton::clicked, this, &StatisticsTrue::exit_triggered);
     QTableWidget *table = new QTableWidget(rows, 3);
     ui->scrollArea->setWidget(table);
     QStringList strl;
@@ -29,7 +30,8 @@ StatisticsTrue::~StatisticsTrue()
     delete ui;
 }
 
-void StatisticsTrue::exit()
+void StatisticsTrue::exit_triggered()
 {
+    emit exit_signal();
     this->~StatisticsTrue();
 }
