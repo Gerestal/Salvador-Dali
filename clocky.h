@@ -21,6 +21,10 @@ public:
     void startClock();
     void stopClock();
 
+    QTime getClockTime();
+    void setClockTime();
+    void setClockTime(QTime time);
+
     ~Clocky();
 
 private:
@@ -35,8 +39,8 @@ private:
     QPixmap* background;
     QPixmap* hours[12];
     QPixmap* hoursShadows[12];
-    //QPixmap* minutes[60];
-    //QPixmap* minutesShadows[60];
+    QPixmap* minutes[60];
+    QPixmap* minutesShadows[60];
 
 private slots:
     void paintEvent(QPaintEvent* ev);
