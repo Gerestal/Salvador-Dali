@@ -19,7 +19,10 @@ private:
     Ui::StatisticsTrue *ui;
 
 private slots:
-    void exit();
+    void exit_triggered();
+
+signals:
+    void exit_signal();
 
 };
 

@@ -28,8 +28,18 @@ private:
     FormatChislovoy* formatchislovoy;
     FormatSlovestny* formatslovestny;
     StatisticsTrue* statisticstrue;
+    QDate startDate;
+    QTime startTime;
     QDate endDate;
     QTime endTime;
+    struct TimeDate
+    {
+        QDate startDate;
+        QTime startTime;
+        QDate endDate;
+        QTime endTime;
+    };
+    QVector<TimeDate> VTimeDate;
 
 private slots:
     void about_triggered();
@@ -41,6 +51,7 @@ private slots:
     void fullscreen_triggered();
     void show_statistics_triggered();
     void exit_triggered();
+    void push_start_time_date();
 
 };
 
