@@ -31,12 +31,12 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>351</width>
+      <width>451</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Словесный формат даты (введите дату словами):</string>
+     <string>Словесный формат даты (введите дату и время словами):</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -102,6 +102,19 @@
     </property>
     <property name="text">
      <string>Ввести</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="start_clocky">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>470</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Запустить часы</string>
     </property>
    </widget>
   </widget>

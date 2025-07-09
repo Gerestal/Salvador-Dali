@@ -11,6 +11,7 @@ QT_END_NAMESPACE
 
 class Clocky : public QWidget {
     Q_OBJECT
+
 public:
     Clocky(QWidget* parent = nullptr);
     void startClock(QTime time);

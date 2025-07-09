@@ -19,10 +19,19 @@ private:
 public:
     FormatSlovestny(QWidget *parent = nullptr);
     ~FormatSlovestny();
+    QTime get_time (){
+        return m_time;
+    }
+
+signals:
+    void start_clock_signal(const QTime &time);
+
 private slots:
 
 void writeData();
     void on_pushButtonParseVerbal_clicked();
+
+void on_start_clocky_clicked();
 
 private:
 Ui::FormatSlovestny *ui;

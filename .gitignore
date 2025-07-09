@@ -1,4 +1,11 @@
 build
+debug 
+release
+.qmake.stash
+.qtc_clangd
+Makefile
+Makefile.Debug
+Makefile.Release
 *.pro
 *.pro.user
 *.pro.user.*
