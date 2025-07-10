@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fullscreen_action, &QAction::triggered, this, &MainWindow::fullscreen_triggered);
     connect(ui->show_statistics_action, &QAction::triggered, this, &MainWindow::show_statistics_triggered);
     connect(ui->exit_action, &QAction::triggered, this, &MainWindow::exit_triggered);
-
-    clock = new Clocky(ui->widget);
 }
 
 MainWindow::~MainWindow()
@@ -53,7 +51,7 @@ void MainWindow::help_triggered()
 
 void MainWindow::from_device_triggered()
 {
-    clock->startClock();
+    ui->widget->startClock();
 }
 
 void MainWindow::chislovoy_input_triggered()
@@ -70,7 +68,7 @@ void MainWindow::slovestny_input_triggered()
 
 void MainWindow::end_testing_triggered()
 {
-    clock->stopClock();
+    ui->widget->stopClock();
 }
 
 void MainWindow::fullscreen_triggered()
@@ -101,7 +99,7 @@ void MainWindow::exit_triggered()
 
 void MainWindow::push_start_time_date(const QTime &time)
 {
-    clock->startClock(time);
+    ui->widget->startClock(time);
 
 
 }
