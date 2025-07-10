@@ -7,7 +7,6 @@
 #include <QVector>
 #include "formatchislovoy.h"
 #include "formatslovestny.h"
-#include "clocky.h"
 #include "statisticstrue.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +25,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Clocky* clock;
     FormatChislovoy* formatchislovoy;
     FormatSlovestny* formatslovestny;
     StatisticsTrue* statisticstrue;
