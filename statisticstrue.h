@@ -2,10 +2,14 @@
 #define STATISTICSTRUE_H
 
 #include <QWidget>
+
 #include <QDate>
 #include <QTime>
 #include <QVector>
 #include "TimeDate.h"
+#include <QFile>
+#include <QDir>
+
 
 namespace Ui {
 class StatisticsTrue;
@@ -33,7 +37,11 @@ private:
 
 private slots:
     void exit_triggered();
+
     void on_save_result_but_clicked();
+
+    void onShowStats();
+
 
 signals:
     void exit_signal();

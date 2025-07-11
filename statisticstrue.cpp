@@ -22,13 +22,30 @@ StatisticsTrue::StatisticsTrue(int rows, QWidget *parent)
     table->setColumnWidth(1, ui->textBrowser->width()/3 - 13);
     table->setColumnWidth(2, ui->textBrowser->width()/3 - 13);
     table->setHorizontalHeaderLabels(strl);
+
     output();
+
+
+    connect(ui->show_statisticsfalse_but, &QAbstractButton::clicked, this, &StatisticsTrue::onShowStats);
+
 }
 
 StatisticsTrue::~StatisticsTrue()
 {
     delete ui;
 }
+
+void StatisticsTrue::onShowStats()
+{
+    QString appDir = QCoreApplication::applicationDirPath();
+    QString fileName = appDir + QDir::separator() + "Statistika_false.txt";
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream stream(&file);
+    ui->textBrowser->setPlainText(stream.readAll());
+    file.close();
+}
+
 
 void StatisticsTrue::exit_triggered()
 {
