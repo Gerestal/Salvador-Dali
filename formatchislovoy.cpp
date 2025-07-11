@@ -200,7 +200,7 @@ void FormatChislovoy::on_pushButton_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-                out << input;
+                out << input << '\n';
                 file.close();
         }
 
@@ -219,7 +219,7 @@ void FormatChislovoy::on_pushButton_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << input;
+            out << input<< '\n';
             file.close();
         }
 
@@ -239,7 +239,7 @@ void FormatChislovoy::on_pushButton_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << input;
+            out << input << '\n';
             file.close();
         }
         return;
