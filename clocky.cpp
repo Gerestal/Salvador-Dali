@@ -37,6 +37,7 @@ void Clocky::startClock()
 void Clocky::stopClock()
 {
     updateTimer->stop();
+    update();
 }
 
 void Clocky::paintEvent(QPaintEvent* ev)
