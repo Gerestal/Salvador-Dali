@@ -35,7 +35,7 @@ void MainWindow::about_triggered()
     about->setWindowTitle("О программе");
     about->setIcon(QMessageBox::Information);
     about->setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
-    about->setText("Вкладка о программе");
+    about->setText("Это приложение служит для создания часов.");
     about->exec();
 }
 
@@ -54,6 +54,8 @@ void MainWindow::help_triggered()
 void MainWindow::from_device_triggered()
 {
     ui->widget->startClock();
+    startDate = QDate::currentDate();
+    startTime = QTime::currentTime();
 }
 
 void MainWindow::chislovoy_input_triggered()
@@ -71,6 +73,9 @@ void MainWindow::slovestny_input_triggered()
 void MainWindow::end_testing_triggered()
 {
     ui->widget->stopClock();
+    endDate = QDate::currentDate();
+    endTime = QTime::currentTime();
+    isSaved = false;
 }
 
 void MainWindow::fullscreen_triggered()
@@ -89,8 +94,16 @@ void MainWindow::fullscreen_triggered()
 
 void MainWindow::show_statistics_triggered()
 {
-    statisticstrue = new StatisticsTrue(15);
+    statisticstrue = new StatisticsTrue(VTimeDate.size());
     connect(statisticstrue, &StatisticsTrue::exit_signal, this, &MainWindow::exit_triggered);
+    connect(statisticstrue, &StatisticsTrue::save_result_signal, this, &MainWindow::save_result_triggered);
+    TimeDate curr;
+    curr.startTime = startTime;
+    curr.startDate = startDate;
+    curr.endTime = endTime;
+    curr.endDate = endDate;
+    statisticstrue->setv(VTimeDate, curr);
+    statisticstrue->output();
     statisticstrue->show();
 }
 
@@ -102,6 +115,34 @@ void MainWindow::exit_triggered()
 void MainWindow::push_start_time_date(const QTime &time)
 {
     ui->widget->startClock(time);
+    startDate = QDate::currentDate();
+    startTime = QTime::currentTime();
+}
+
+void MainWindow::save_result_triggered()
+{
+    if (!isSaved)
+    {
+        TimeDate curr;
+        curr.startTime = startTime;
+        curr.startDate = startDate;
+        curr.endTime = endTime;
+        curr.endDate = endDate;
+        VTimeDate.push_back(curr);
+        isSaved = true;
+        statisticstrue->setv(VTimeDate, curr);
+
+    }
+
+}
 
 
+bool MainWindow::getIsSaved()
+{
+    return isSaved;
+}
+
+bool MainWindow::setIsSaved(bool isSaved_)
+{
+    isSaved = isSaved_;
 }
