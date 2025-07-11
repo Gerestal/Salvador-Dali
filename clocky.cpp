@@ -46,6 +46,7 @@ void Clocky::paintEvent(QPaintEvent* ev)
     double height = this->height();
 
     int hour = currentTime.hour() % 12 - 1;
+    if(hour == -1) hour = 11;
     int minute = currentTime.minute();
 
     double offset;
