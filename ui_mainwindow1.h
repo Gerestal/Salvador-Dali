@@ -88,7 +88,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 900, 25));
+        menubar->setGeometry(QRect(0, 0, 900, 21));
         file_menu = new QMenu(menubar);
         file_menu->setObjectName("file_menu");
         statistics_menu = new QMenu(menubar);
