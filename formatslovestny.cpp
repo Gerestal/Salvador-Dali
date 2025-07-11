@@ -54,7 +54,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
        if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << "Пустая строка";
+            out << "Пустая строка" << '\n';
             file.close();
         }
 
@@ -200,7 +200,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -212,7 +212,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -228,7 +228,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -246,7 +246,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -275,7 +275,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -289,7 +289,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -303,7 +303,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
@@ -317,7 +317,7 @@ void FormatSlovestny::on_pushButtonParseVerbal_clicked()
         QFile file(fileName);
         if (file.open(QIODevice::Append | QIODevice::Text)) {
             QTextStream out(&file);
-            out << in;
+            out << in<< '\n';
             file.close();
         }
         return;
