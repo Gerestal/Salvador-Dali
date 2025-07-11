@@ -2,6 +2,8 @@
 #define STATISTICSTRUE_H
 
 #include <QWidget>
+#include <QFile>
+#include <QDir>
 
 namespace Ui {
 class StatisticsTrue;
@@ -20,6 +22,7 @@ private:
 
 private slots:
     void exit_triggered();
+    void onShowStats();
 
 signals:
     void exit_signal();
