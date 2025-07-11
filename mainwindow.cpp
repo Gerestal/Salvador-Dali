@@ -45,7 +45,9 @@ void MainWindow::help_triggered()
     help->setWindowTitle("Помощь");
     help->setIcon(QMessageBox::Information);
     help->setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
-    help->setText("Вкладка помощь");
+    help->setText("Вкладка помощь.\n Добро пожаловать в Мягкие часы! Если у вас возникли проблемы, обращайтесь к @stsniskhan в Telegram. \nДля того, чтобы запустить часы, необходимо сперва указать дату и время запуска. Для этого перейдите в Формат в строке меню. Выберите желаемый формат ввода данных. \n"
+                  "В появившемся окне ввода данных введите дату и время в указанном формате. Дату и время в словесном формате необходимо указывать словами со сточной буквы через пробел (без иных разделителей). \n Нажмите кнопку Ввести и, если всё введено корректно, нажмите Запустить часы. \n"
+                  "В строке меню Вы так же найдёте опцию Статистика, где можно посмотреть все запуски часов. По нажатию на кнопку Показать ошибочные вводы Вы увидите только неверные вводы даты и времени, когда запуск часов не состоялся. В строке меню при нажатии на опцию Статистика можно завершить сохранение и запись вводов, если они не нужны, выбрав пункт Завершить тестирование.");
     help->exec();
 }
 
@@ -63,7 +65,7 @@ void MainWindow::chislovoy_input_triggered()
 void MainWindow::slovestny_input_triggered()
 {
     formatslovestny = new FormatSlovestny;
-    // connect (formatslovestny, &FormatSlovestny::start_clock_signal, this, &MainWindow::push_start_time_date);
+    connect (formatslovestny, &FormatSlovestny::start_clock_signal, this, &MainWindow::push_start_time_date);
 }
 
 void MainWindow::end_testing_triggered()
