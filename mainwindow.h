@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    bool getIsSaved();
+    bool setIsSaved(bool isSaved_);
 
 private:
     Ui::MainWindow *ui;
@@ -32,14 +34,8 @@ private:
     QTime startTime;
     QDate endDate;
     QTime endTime;
-    struct TimeDate
-    {
-        QDate startDate;
-        QTime startTime;
-        QDate endDate;
-        QTime endTime;
-    };
     QVector<TimeDate> VTimeDate;
+    bool isSaved = true;
 
 private slots:
     void about_triggered();
@@ -52,6 +48,7 @@ private slots:
     void show_statistics_triggered();
     void exit_triggered();
     void push_start_time_date(const QTime &time);
+    void save_result_triggered();
 
 };
 
