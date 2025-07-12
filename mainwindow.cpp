@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fullscreen_action, &QAction::triggered, this, &MainWindow::fullscreen_triggered);
     connect(ui->show_statistics_action, &QAction::triggered, this, &MainWindow::show_statistics_triggered);
     connect(ui->exit_action, &QAction::triggered, this, &MainWindow::exit_triggered);
+    ui->show_statistics_action->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -54,8 +55,10 @@ void MainWindow::help_triggered()
 void MainWindow::from_device_triggered()
 {
     ui->widget->startClock();
-    startDate = QDate::currentDate();
-    startTime = QTime::currentTime();
+    startDate = new QDate;
+    startTime = new QTime;
+    *startDate = QDate::currentDate();
+    *startTime = QTime::currentTime();
 }
 
 void MainWindow::chislovoy_input_triggered()
@@ -73,9 +76,12 @@ void MainWindow::slovestny_input_triggered()
 void MainWindow::end_testing_triggered()
 {
     ui->widget->stopClock();
-    endDate = QDate::currentDate();
-    endTime = QTime::currentTime();
+    endDate = new QDate;
+    endTime = new QTime;
+    *endDate = QDate::currentDate();
+    *endTime = QTime::currentTime();
     isSaved = false;
+    ui->show_statistics_action->setEnabled(true);
 }
 
 void MainWindow::fullscreen_triggered()
@@ -98,10 +104,10 @@ void MainWindow::show_statistics_triggered()
     connect(statisticstrue, &StatisticsTrue::exit_signal, this, &MainWindow::exit_triggered);
     connect(statisticstrue, &StatisticsTrue::save_result_signal, this, &MainWindow::save_result_triggered);
     TimeDate curr;
-    curr.startTime = startTime;
-    curr.startDate = startDate;
-    curr.endTime = endTime;
-    curr.endDate = endDate;
+    curr.startTime = *startTime;
+    curr.startDate = *startDate;
+    curr.endTime = *endTime;
+    curr.endDate = *endDate;
     statisticstrue->setv(VTimeDate, curr);
     statisticstrue->output();
     statisticstrue->show();
@@ -115,8 +121,10 @@ void MainWindow::exit_triggered()
 void MainWindow::push_start_time_date(const QTime &time)
 {
     ui->widget->startClock(time);
-    startDate = QDate::currentDate();
-    startTime = QTime::currentTime();
+    startDate = new QDate;
+    startTime = new QTime;
+    *startDate = QDate::currentDate();
+    *startTime = QTime::currentTime();
 }
 
 void MainWindow::save_result_triggered()
@@ -124,25 +132,25 @@ void MainWindow::save_result_triggered()
     if (!isSaved)
     {
         TimeDate curr;
-        curr.startTime = startTime;
-        curr.startDate = startDate;
-        curr.endTime = endTime;
-        curr.endDate = endDate;
+        curr.startTime = *startTime;
+        curr.startDate = *startDate;
+        curr.endTime = *endTime;
+        curr.endDate = *endDate;
         VTimeDate.push_back(curr);
         isSaved = true;
+
+        // Обновляем данные в окне статистики
         statisticstrue->setv(VTimeDate, curr);
-
     }
-
 }
 
 
-bool MainWindow::getIsSaved()
-{
-    return isSaved;
-}
+// bool MainWindow::getIsSaved()
+// {
+//     return isSaved;
+// }
 
-bool MainWindow::setIsSaved(bool isSaved_)
-{
-    isSaved = isSaved_;
-}
+// bool MainWindow::setIsSaved(bool isSaved_)
+// {
+//     isSaved = isSaved_;
+// }

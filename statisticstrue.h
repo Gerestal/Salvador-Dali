@@ -30,10 +30,10 @@ public:
 private:
     Ui::StatisticsTrue *ui;
     QVector<TimeDate> VTimeDate;
-    QDate startDate;
-    QTime startTime;
-    QDate endDate;
-    QTime endTime;
+    QDate* startDate;
+    QTime* startTime;
+    QDate* endDate;
+    QTime* endTime;
 
 private slots:
     void exit_triggered();
