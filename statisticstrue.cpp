@@ -12,22 +12,11 @@ StatisticsTrue::StatisticsTrue(int rows, QWidget *parent)
     setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
     setWindowTitle("Статистика");
     connect(ui->exit_but, &QAbstractButton::clicked, this, &StatisticsTrue::exit_triggered);
-    QTableWidget *table = new QTableWidget(rows, 3);
-    ui->scrollArea->setWidget(table);
-    QStringList strl;
-    strl.push_back("Время запуска");
-    strl.push_back("Время завершения");
-    strl.push_back("Продолжительность");
-    table->setColumnWidth(0, ui->textBrowser->width()/3 - 13);
-    table->setColumnWidth(1, ui->textBrowser->width()/3 - 13);
-    table->setColumnWidth(2, ui->textBrowser->width()/3 - 13);
-    table->setHorizontalHeaderLabels(strl);
 
-    output();
-
+    // Убрано создание таблицы здесь - она будет создана в output()
 
     connect(ui->show_statisticsfalse_but, &QAbstractButton::clicked, this, &StatisticsTrue::onShowStats);
-
+    // output();
 }
 
 StatisticsTrue::~StatisticsTrue()
@@ -42,6 +31,7 @@ void StatisticsTrue::onShowStats()
     QFile file(fileName);
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream stream(&file);
+    ui->textBrowser->clear();
     ui->textBrowser->setPlainText(stream.readAll());
     file.close();
 }
@@ -56,82 +46,81 @@ void StatisticsTrue::exit_triggered()
 void StatisticsTrue::on_save_result_but_clicked()
 {
     emit save_result_signal();
-    //output();
+    output();
 }
 
 void StatisticsTrue::setv(QVector<TimeDate> currv, TimeDate curr)
 {
     VTimeDate = currv;
-    startDate = curr.startDate;
-    startTime = curr.startTime;
-    endDate = curr.endDate;
-    endTime = curr.endTime;
+    startDate = new QDate;
+    startTime = new QTime;
+    endDate = new QDate;
+    endTime = new QTime;
+    *startDate = curr.startDate;
+    *startTime = curr.startTime;
+    *endDate = curr.endDate;
+    *endTime = curr.endTime;
     output();
 }
 
 void StatisticsTrue::output()
 {
+    QTableWidget *table = qobject_cast<QTableWidget*>(ui->scrollArea->widget());
+    // if (!table) {
+    table = new QTableWidget(0, 3, this);
+    table->setColumnWidth(0, ui->scrollArea->width()/3 - 13);
+    table->setColumnWidth(1, ui->scrollArea->width()/3 - 13);
+    table->setColumnWidth(2, ui->scrollArea->width()/3 - 13);
+    QStringList headers;
+    headers << "Время запуска" << "Время завершения" << "Продолжительность";
+    table->setHorizontalHeaderLabels(headers);
 
-    if (!VTimeDate.empty())
+    ui->scrollArea->setWidget(table);
+    // }
+
+    table->setRowCount(VTimeDate.size());
+
+    for (int i = 0; i < VTimeDate.size(); i++)
     {
-        if (startTime != VTimeDate.back().startTime
-            || startDate != VTimeDate.back().startDate
-            || endTime != VTimeDate.back().endTime
-            || endDate != VTimeDate.back().endDate)
+        QString timeString = VTimeDate[i].startDate.toString("dd.MM.yyyy") + " " +
+                             VTimeDate[i].startTime.toString("hh:mm:ss");
+        QTableWidgetItem *item = new QTableWidgetItem(timeString);
+        table->setItem(i, 0, item);
+
+        timeString = VTimeDate[i].endDate.toString("dd.MM.yyyy") + " " +
+                     VTimeDate[i].endTime.toString("hh:mm:ss");
+        item = new QTableWidgetItem(timeString);
+        table->setItem(i, 1, item);
+
+        int seconds = VTimeDate[i].startDate.daysTo(VTimeDate[i].endDate)*24*60*60 +
+                      VTimeDate[i].startTime.secsTo(VTimeDate[i].endTime);
+        item = new QTableWidgetItem(QString::number(seconds));
+        table->setItem(i, 2, item);
+    }
+
+    if (startTime != nullptr && !VTimeDate.empty())
+    {
+        if (*startTime == VTimeDate.last().startTime)
         {
-            QString str;
-            str.push_back("Статистика:\nДата начала: ");
-            str.push_back(startDate.toString());
-            str.push_back("\nВремя начала: ");
-            str.push_back(startTime.toString());
-            str.push_back("\nДата конца: ");
-            str.push_back(endDate.toString());
-            str.push_back("\nВремя конца: ");
-            str.push_back(endTime.toString());
-            ui->textBrowser->setText(str);
+            startTime = nullptr;
+            startDate = nullptr;
+            endTime = nullptr;
+            endDate = nullptr;
         }
-        else
-        {
-            ui->textBrowser->setText("Последнее тестирование уже было сохранено.");
-        }
-        for (int i = 0; i < VTimeDate.size(); i++)
-        {
-            QTableWidget *table = new QTableWidget(VTimeDate.size(), 3);
-            QString timeString = VTimeDate[i].startTime.toString("hh:mm:ss");
-            QTableWidgetItem *item = new QTableWidgetItem(timeString);
-            table->setItem(i, 0, item);
-            timeString = VTimeDate[i].endTime.toString("hh:mm:ss");
-            delete item;
-            item = new QTableWidgetItem(timeString);
-            table->setItem(i, 1, item);
-            int res;
-            res = VTimeDate[i].startTime.secsTo(VTimeDate[i].endTime);
-            res += VTimeDate[i].startDate.daysTo(VTimeDate[i].endDate)*24*60*60;
-            delete item;
-            item = new QTableWidgetItem(QString::number(res));
-            table->setItem(i, 2, item);
-            delete item;
+    }
 
 
-
-            ui->scrollArea->setWidget(table);
-
-        }
+    if (startTime == nullptr)
+    {
+        ui->textBrowser->setText("Последнее тестирование уже было записано");
     }
     else
     {
-
-            QString str;
-            str.push_back("Статистика:\nДата начала: ");
-            str.push_back(startDate.toString());
-            str.push_back("\nВремя начала: ");
-            str.push_back(startTime.toString());
-            str.push_back("\nДата конца: ");
-            str.push_back(endDate.toString());
-            str.push_back("\nВремя конца: ");
-            str.push_back(endTime.toString());
-            ui->textBrowser->setText(str);
-\
+        // const TimeDate& last = VTimeDate.last();
+        QString str = "Статистика:\nДата начала: " + (*startDate).toString() +
+                      "\nВремя начала: " + (*startTime).toString() +
+                      "\nДата конца: " + (*endDate).toString() +
+                      "\nВремя конца: " + (*endTime).toString();
+        ui->textBrowser->setText(str);
     }
-
 }

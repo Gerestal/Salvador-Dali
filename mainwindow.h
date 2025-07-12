@@ -30,10 +30,10 @@ private:
     FormatChislovoy* formatchislovoy;
     FormatSlovestny* formatslovestny;
     StatisticsTrue* statisticstrue;
-    QDate startDate;
-    QTime startTime;
-    QDate endDate;
-    QTime endTime;
+    QDate* startDate = nullptr;
+    QTime* startTime = nullptr;
+    QDate* endDate = nullptr;
+    QTime* endTime = nullptr;
     QVector<TimeDate> VTimeDate;
     bool isSaved = true;
 
