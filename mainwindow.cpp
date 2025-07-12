@@ -36,7 +36,7 @@ void MainWindow::about_triggered()
     about->setWindowTitle("О программе");
     about->setIcon(QMessageBox::Information);
     about->setWindowIcon(QIcon(":/img/images/SalvadorDali.png"));
-    about->setText("Это приложение служит для создания часов.");
+    about->setText("Это приложение служит для создания часов. \nЕсть возможность ввести дату и время запуска часов вручную цифрами или словами или взять текущие с устройства. Приложение собирает статистику работы часов и неверных вводов.");
     about->exec();
 }
 
